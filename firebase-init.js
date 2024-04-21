@@ -182,9 +182,9 @@ const analytics = getAnalytics(app);
 const db = getDatabase();
 // var someFunction = function()
 // Define the submittingform function
-function submittingform(event) {
+export function submittingform(event) {
   event.preventDefault(); // Prevent the default form submission
-
+  console.log("Form submitted!");
   const quote = document.getElementById("quote").value;
   const tags = document.getElementById("tag-input").value.split(',');
   const lines = document.getElementById("lines").value;
@@ -210,4 +210,51 @@ function submittingform(event) {
 }
 
 // Attach the submittingform function to the form's submit event
-document.getElementById("submitButton").addEventListener("click", submittingform);
+// document.getElementById("submitButton").addEventListener("click", submittingform);
+
+
+function register(){
+  email = document.getElementsById('email').value
+  password = document.getElementsById('passowrd').value
+
+  if (validateemail(email) == false || validatepassword(password) == false) {
+    return
+  }
+  auth.UserWithEmailAndPassword(email,password)
+  .then(function() {
+    
+    var user = auth.currentUser
+
+    var database_ref = database.ref()
+
+    var user_data = {
+      email : email,
+      last_login : Date.now()
+    }
+
+    database_ref.ref.child('users/' + user.uid).set()
+
+    alert('user created')
+  })
+  .catch(function(error) {
+    var error_code = error.code
+    var error_message = error.message
+  })
+}
+
+function validateemail(email) {
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value))
+   {
+     return true
+   }
+     alert("You have entered an invalid email address!")
+     return false
+ }
+ 
+ function validatepassword(password) {
+  if (password < 6) {
+    return false
+  } else {
+    return true
+  }
+}
