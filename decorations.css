@@ -1,0 +1,218 @@
+html {
+    overflow-y: scroll; /* Always shows the vertical scrollbar */
+}
+body, html {
+  margin: 0;
+
+  padding: 0;
+  height: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 45px;
+  background-color: #333;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 45px;
+  background-color: #333;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.hiddenundernavbar {
+    height: 45px;
+}
+
+.navbar a {
+  float: left;
+  display: flex;
+  background-color: #454343;
+  color: white;
+  text-align: center;
+  padding: 0px 16px;
+  margin: 0 5px; /* Adjust spacing as needed */
+  text-decoration: none;
+  border-radius: 5px; /* Rounded corners */
+  height: 80%;
+  line-height: 80%; /* Same height as the element */
+  font-size: 16px; /* Adjust as needed */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+    
+  align-items: center; /* Align items in the center */
+}
+
+.navbar a:hover {
+  background-color: #555; /* Darker shade for hover effect */
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.navbar a {
+  float: left;
+  display: flex;
+  background-color: #454343;
+  color: white;
+  text-align: center;
+  padding: 0px 16px;
+  margin: 0 5px; /* Adjust spacing as needed */
+  text-decoration: none;
+  border-radius: 5px; /* Rounded corners */
+  height: 80%;
+  line-height: 80%; /* Same height as the element */
+  font-size: 16px; /* Adjust as needed */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+    
+  align-items: center; /* Align items in the center */
+}
+
+.topic {
+  width: 100%; /* Adjust the width as needed */
+  min-height: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
+  background: #d7d6d6; /* Example background color for each topic */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Example shadow for styling */
+    border-radius: 15px; /* This will give you rounded corners with a 15px radius */
+}
+@media (max-width: 768px) {
+  .topic {
+    width: 99%; /* Full width on smaller screens */
+  }
+  .quotegatherform {
+    width: 100%;
+  }
+}
+.topic2 {
+  display: inline-block;
+  width: 100%; /* Adjust the width as needed */
+  min-height: 15vh;
+  
+  /* margin: auto; */
+  /* padding: 20px; */
+  background: #ffffff; /* Example background color for each topic */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Example shadow for styling */
+    border-radius: 15px; /* This will give you rounded corners with a 15px radius */
+}
+.quotegatherform {
+  justify-content: center;
+  text-align: center;
+  width: 95%;
+  max-width: 1000px;
+  margin: 0 auto;
+  
+}
+
+.quoteinputbox {
+  width: 70%;
+  text-align: center;
+  outline: 0;
+}
+
+.pagegather {
+  width: 10%; 
+  text-align: center;
+}
+.linesgather {
+  width: 20%; 
+  text-align: center;
+}
+
+.submitform {
+  justify-content: center;
+  margin: 5px;
+}
+
+@media (max-width: 768px) {
+  .topic2 {
+    width: 100%; /* Full width on smaller screens */
+  }
+}
+.topics-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+    
+}
+.featured-topics {
+  text-align: center;
+  padding: 10px 20px;
+
+  height: 100%;
+  background: #f5f5f5;
+}
+
+.footer p {
+  color: white;
+  text-align: center;
+  padding: 2px;
+  margin: 0;
+}
+.footer {
+    display: block;
+  width: 100%;
+  background-color: #333;
+  left: 0;
+    
+ margin-top: auto;
+}
+.hero {
+  
+  text-align: center;
+  background: #f5f5f5; /* Example background color */
+}
+.centered{
+    text-align: center;
+    background: #f5f5f5;
+    padding: 0px;
+    margin: inherit;
+}
+::-webkit-scrollbar {
+  width:0px; /* Change width of the scrollbar */
+}
+
+#tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#tag-input {
+  flex-grow: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+  max-width: 50%;
+  justify-content: center;
+}
+
+#tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px;
+  justify-content: center;
+}
+
+.tag {
+  padding: 5px;
+  margin: 2px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}

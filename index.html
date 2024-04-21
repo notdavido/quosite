@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover gaming news, reviews, and discussions. Find content on popular titles like Roblox, Valorant, and Fortnite- or rather smaller topics related to computers and keyboards. We also explore interesting topics and may offer future computer tutorials.">
+    <title>Multiquote- Home</title>
+    <link rel="icon" type="image/x-icon" href="/images/x.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/appletouchicon.png">
+    <link rel="stylesheet" href="decorations.css">
+    
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSGL4J6KZE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CSGL4J6KZE');
+    </script>
+    
+    <!-- Firebase JavaScript SDK -->
+    
+    <script type="module" src="./node_modules/firebase/firebase-app.js"></script>
+    <!-- <script type="module" src="./node_modules/firebase/firebase-firestore.js"></script> -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js"></script>
+    <script type="module" src="firebase-init.js"></script>
+    
+    
+</head>
+<body>
+
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="blogfolder.html">Posts</a>
+  <a href="about.html">About</a>
+  <!-- Add more links as needed -->
+</div>
+<div class="hiddenundernavbar">
+    Why hello there ಠ_ಠ
+</div>
+
+<div class="hero">
+  <h1>BooQuote</h1>
+</div>
+    
+    
+<h3 class="centered"id="myButton">Organize your quotes in one place.</h3>
+
+  <script>
+    const button = document.getElementById("myButton");
+    const paragraph = document.getElementById("myParagraph");
+
+    button.addEventListener("click", () => {
+      button.remove();
+    });
+  </script>    
+    
+    
+<!-- Featured Topics/Games Section -->
+<section class="featured-topics">
+  <h2></h2>
+  <div class="topics-container">
+      
+          
+      
+  <div class="topic">
+    <h3></h3>
+
+    <div class="topic2">
+
+      <h3>Add quote:</h3>
+      <form class="quotegatherform">
+        <textarea class="quoteinputbox" rows="3" type="text" id="quote" placeholder="Enter your quote here"></textarea><br>
+        
+        <div id="tag-container">
+          <input type="text" id="tag-input" placeholder="Enter your tags here">
+        </div>
+        <div id="tag-list"></div>
+
+        <input class="linesgather" type="text" id="lines" placeholder="Lines (Optional)">
+        <input class="pagegather" type="number" id="page" placeholder="Page"><br>
+
+        
+        
+
+
+
+
+        <input class="submitform" type="submit" value="Submit" id="submitButton">
+      </form>
+    </div>
+    
+  well hello there
+
+    
+
+  </div>
+  </div>
+</section>
+
+
+
+
+
+</body>
+   <div class="footer">
+      <p>Irmonus © 2024</p>
+   </div>
+
+
+
+   <script src="javasfile.js"></script>  </head>
+   
+</html>
