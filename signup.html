@@ -25,7 +25,7 @@
     <script type="module" src="./node_modules/firebase/firebase-app.js"></script>
     <!-- <script type="module" src="./node_modules/firebase/firebase-firestore.js"></script> -->
     <script type="module" src="https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js"></script>
-    <script type="module" src="firebase-init.js"></script>
+    
     
     
 </head>
@@ -49,13 +49,15 @@
     </div><br>
     
     <h2 class="quotegatherform">Email Sign-up</h2><br>
-    <form class="centered"action="#" method="post" onsubmit="register()">
+    <form class="centered" id="formtosignup">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br><br>
         <label for="password">Password:</label>
         <input type="password" id="emailpassword" name="password" required><br><br>
-        <input type="submit" value="Sign Up">
-
+        <!-- <button id='onregisterclick' onclick="register()" type="submit" value="Sign Up">Sign Up</button> -->
+        <input type="submit" value="Submit" id="onregisterclick" value="Sign-up">
     </form>
+    <script type="module" src="firebase-init.js"></script>
 </body>
+
 </html>

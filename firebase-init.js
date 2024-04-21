@@ -1,14 +1,28 @@
 // Import the functions you need from the SDKs you need
 // import firebase from "firebase/app";
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js';
+// import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js';
 
 // import { Firestore, getFirestore } from 'firebase/firestore';
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-analytics.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
-// var provider = new Firestore.auth.GoogleAuthProvider();
 
+
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+
+
+
+
+// import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-analytics.js";
+// import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
+// import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
+
+// var provider = new Firestore.auth.GoogleAuthProvider();
+// firebase.initializeApp(firebaseConfig);
 
 
 
@@ -28,7 +42,16 @@ const firebaseConfig = {
   databaseURL: `https://websitequoteproj-default-rtdb.firebaseio.com/`,
 };
 
+console.log("asdfasdf")
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const firestore = getFirestore(app);
+const analytics = getAnalytics(app);
+const db = getDatabase();
+const auth = getAuth(); // Initialize Firebase Authentication
 
+
+// const auth = firebase.auth(); alt
 
 function googleProvider() {
   // [START auth_google_provider_create]
@@ -175,11 +198,7 @@ function googleProviderCredential(idToken) {
   var credential = firebase.auth.GoogleAuthProvider.credential(idToken);
   // [END auth_google_provider_credential]
 }
-console.log("asdfasdf")
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getDatabase();
+
 // var someFunction = function()
 // Define the submittingform function
 export function submittingform(event) {
@@ -213,14 +232,15 @@ export function submittingform(event) {
 // document.getElementById("submitButton").addEventListener("click", submittingform);
 
 
-function register(){
-  email = document.getElementsById('email').value
-  password = document.getElementsById('passowrd').value
+function register(event){
+  event.preventDefault();
+  const email = document.getElementById('email').value
+  const password = document.getElementById('emailpassword').value
 
   if (validateemail(email) == false || validatepassword(password) == false) {
     return
   }
-  auth.UserWithEmailAndPassword(email,password)
+  createUserWithEmailAndPassword(auth,email,password)
   .then(function() {
     
     var user = auth.currentUser
@@ -231,7 +251,7 @@ function register(){
       email : email,
       last_login : Date.now()
     }
-
+    console.log("here")
     database_ref.ref.child('users/' + user.uid).set()
 
     alert('user created')
@@ -243,7 +263,7 @@ function register(){
 }
 
 function validateemail(email) {
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value))
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
    {
      return true
    }
@@ -258,3 +278,29 @@ function validateemail(email) {
     return true
   }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  // This code will execute after all HTML elements have been loaded
+  // Put the relevant parts of your JavaScript code here
+  // For example:
+  
+  // Select elements and manipulate the DOM
+
+  
+  // Attach event listeners
+  if (document.getElementById('onregisterclick')) {
+    console.log("check")
+    const appElement = document.getElementById('onregisterclick');
+    const formelement = document.getElementById('formtosignup');
+    
+    appElement.addEventListener('click', register);  // Pass the function itself
+  } else {
+    console.log("Element with ID 'onregisterclick' not found on this page.");
+  }
+
+  // Other DOM-related operations...
+});
+
+// Other JavaScript code that doesn't depend on DOM content can go here
+// This code will execute immediately without waiting for the DOM to be fully loaded
+
