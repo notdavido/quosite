@@ -48,6 +48,7 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 const analytics = getAnalytics(app);
 const db = getDatabase();
+
 const auth = getAuth(); // Initialize Firebase Authentication
 
 
@@ -244,21 +245,29 @@ function register(event){
   .then(function() {
     
     var user = auth.currentUser
+    // console.log("User:", user); // Check if user object is retrieved correctly
 
-    var database_ref = database.ref()
-
+    
+    // var database_ref = db.ref();
+    
+    console.log("here")
     var user_data = {
       email : email,
       last_login : Date.now()
     }
-    console.log("here")
-    database_ref.ref.child('users/' + user.uid).set()
+    set(ref(db, 'users/' + user.uid), user_data)
+      .then(() => {
+          console.log("User added to database");
+          // Optionally reset the form here
+      })
+      .catch((error) => {
+        var error_code = error.code
+        var error_message = error.message
+        console.error("Error:", error_code, error_message);
+      });
+    // database_ref.child('users/' + user.uid).set()
 
     alert('user created')
-  })
-  .catch(function(error) {
-    var error_code = error.code
-    var error_message = error.message
   })
 }
 
@@ -289,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function() {
   
   // Attach event listeners
   if (document.getElementById('onregisterclick')) {
-    console.log("check")
+    // console.log("check")
     const appElement = document.getElementById('onregisterclick');
     const formelement = document.getElementById('formtosignup');
     
