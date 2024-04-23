@@ -211,7 +211,6 @@ export function submittingform(event) {
   const page = document.getElementById("page").value;
 
   const data = {
-      quote: quote,
       tags: tags,
       lines: lines,
       page: page
