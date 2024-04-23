@@ -10,8 +10,8 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 
 
@@ -216,9 +216,11 @@ export function submittingform(event) {
       lines: lines,
       page: page
   };
-
+  var user = auth.currentUser
+  console.log(user)
   // Use set function to write data to the database
-  set(ref(db, 'quotes/' + quote), data)
+  set(ref(db, 'users/' + user.uid + '/quotes/' + quote), data)
+  
       .then(() => {
           console.log("Data successfully written to the database");
           // Optionally reset the form here
@@ -242,6 +244,7 @@ function register(event){
     return
   }
   createUserWithEmailAndPassword(auth,email,password)
+  
   .then(function() {
     
     var user = auth.currentUser
@@ -263,13 +266,99 @@ function register(event){
       .catch((error) => {
         var error_code = error.code
         var error_message = error.message
-        console.error("Error:", error_code, error_message);
+        //console.error("Error:", error_code, error_message)
+       
+        
       });
     // database_ref.child('users/' + user.uid).set()
 
     alert('user created')
   })
+  .catch((error) => {
+    var error_code = error.code
+    var error_message = error.message
+    console.log(error_code)
+    if (error_code === 'auth/email-already-in-use') {
+      // Handle email already in use error here
+      alert("account already exists")
+      // Display appropriate message to the user
+    }
+  });
 }
+
+function login() {
+  event.preventDefault();
+  //get input fields
+
+  
+
+  const email = document.getElementById('email').value
+  const password = document.getElementById('emailpassword').value
+  //validate
+  if (validateemail(email) == false || validatepassword(password) == false) {
+    return
+  }
+
+  console.log("here")
+    var user_data = {
+      last_login : Date.now()
+    }
+    signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    const user = userCredential.user;
+    console.log("User logged in:", user);
+    alert('Logged in')
+    // Update user data
+    update(ref(db, 'users/' + user.uid), user_data)
+      .then(() => {
+        console.log("User data updated successfully");
+        // Optionally reset the form here
+      })
+      .catch((error) => {
+        console.error("Error updating user data:", error);
+      });
+  })
+  .catch((error) => {
+    // Handle sign-in errors
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error("Sign-in error:", errorCode, errorMessage);
+  });
+
+  // auth.signInWithEmailAndPassword(email,password)
+  // .then(function() {
+  //   var user = auth.currentUser
+  //   var user_data = {
+  //     last_login : Date.now()
+  //   }
+
+  //   database_ref.child('users/' + user.uid).update(user_data)
+  // })
+  // .catch((error) => {
+  //   var error_code = error.code
+  //   var error_message = error.message
+  //   console.error("Error:", error_code, error_message);
+  // });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function validateemail(email) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
@@ -294,18 +383,28 @@ document.addEventListener("DOMContentLoaded", function() {
   // For example:
   
   // Select elements and manipulate the DOM
-
+  
   
   // Attach event listeners
   if (document.getElementById('onregisterclick')) {
     // console.log("check")
-    const appElement = document.getElementById('onregisterclick');
+    const registerelement = document.getElementById('onregisterclick');
     const formelement = document.getElementById('formtosignup');
-    
-    appElement.addEventListener('click', register);  // Pass the function itself
+
+    registerelement.addEventListener('click', register);  // Pass the function itself
   } else {
-    console.log("Element with ID 'onregisterclick' not found on this page.");
+    console.log("register element not found on this page.");
   }
+
+  if (document.getElementById('onloginclick')) {
+    // console.log("check")
+    const loginelement = document.getElementById('onloginclick');
+    loginelement.addEventListener('click', login);
+
+  } else {
+    console.log("login element not found on this page.");
+  }
+  
 
   // Other DOM-related operations...
 });
