@@ -214,11 +214,16 @@ export function submittingform(event) {
       lines: lines,
       page: page
   };
-  alert('we need to either make a better alert or create guest posting')
-  var user = auth.currentUser /////////////////////////////////////////////////
+  
+  if (!auth.currentUser) {
+    alert('the site does not support signed out clients yet')
+  }
+
+  
+  var user = auth.currentUser
   console.log(user)
   // Use set function to write data to the database
-  set(ref(db, 'users/' + user.uid + '/quotes/' + quote), data)
+  set(ref(db, 'users/' + user.uid + '/dataset1/' + '/quotes/' + quote), data)
   
       .then(() => {
           console.log("Data successfully written to the database");
