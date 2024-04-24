@@ -370,10 +370,17 @@ document.addEventListener("DOMContentLoaded", function() {
   
   
   // Attach event listeners
-  const currentUser = auth.currentUser;
-  if (currentUser) {
-    const signinpage = document.getElementById('signuppageredirect');
-    const loginpage = document.getElementById('loginpageredirect');
+
+  const signinpage = document.getElementById('signuppageredirect');
+  const loginpage = document.getElementById('loginpageredirect');
+
+  auth.onAuthStateChanged(function(user) {
+    
+    if (user) {
+      if (window.location.href.includes('login.html') || window.location.href.includes('signup.html')) {
+        // If the current page is either 'login.html' or 'signup.html', reload the page
+        window.location.href = 'index.html';
+      }
     if (signinpage) {
       signinpage.remove();
     }
@@ -391,10 +398,18 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error('Sign out error:', error);
       });
     });
+    } else {
+      // User is signed out.
+      console.log("User is signed out");
+      // Your code for signed out user here
+    }
+  });
+
+    
     
     // loginpage.href = 'new-url.html'; //redirecting the changed login button to logout and new url
 
-  }
+  
 
   if (document.getElementById('onregisterclick')) {
     // console.log("check")
