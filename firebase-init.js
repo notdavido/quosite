@@ -16,7 +16,6 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 
 
 
-
 // import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-analytics.js";
 // import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-database.js";
 // import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
@@ -42,7 +41,7 @@ const firebaseConfig = {
   databaseURL: `https://websitequoteproj-default-rtdb.firebaseio.com/`,
 };
 
-console.log("asdfasdf")
+// console.log("asdfasdf")
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
@@ -50,7 +49,7 @@ const analytics = getAnalytics(app);
 const db = getDatabase();
 
 const auth = getAuth(); // Initialize Firebase Authentication
-
+// console.log(auth)
 
 // const auth = firebase.auth(); alt
 
@@ -215,7 +214,8 @@ export function submittingform(event) {
       lines: lines,
       page: page
   };
-  var user = auth.currentUser
+  alert('we need to either make a better alert or create guest posting')
+  var user = auth.currentUser /////////////////////////////////////////////////
   console.log(user)
   // Use set function to write data to the database
   set(ref(db, 'users/' + user.uid + '/quotes/' + quote), data)
@@ -323,21 +323,6 @@ function login() {
     const errorMessage = error.message;
     console.error("Sign-in error:", errorCode, errorMessage);
   });
-
-  // auth.signInWithEmailAndPassword(email,password)
-  // .then(function() {
-  //   var user = auth.currentUser
-  //   var user_data = {
-  //     last_login : Date.now()
-  //   }
-
-  //   database_ref.child('users/' + user.uid).update(user_data)
-  // })
-  // .catch((error) => {
-  //   var error_code = error.code
-  //   var error_message = error.message
-  //   console.error("Error:", error_code, error_message);
-  // });
 }
 
 
@@ -385,6 +370,32 @@ document.addEventListener("DOMContentLoaded", function() {
   
   
   // Attach event listeners
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    const signinpage = document.getElementById('signuppageredirect');
+    const loginpage = document.getElementById('loginpageredirect');
+    if (signinpage) {
+      signinpage.remove();
+    }
+    loginpage.textContent = "Log Out";
+
+    loginpage.addEventListener('click', function() { //loginpage is actually logout for now
+      // Sign out the current user
+      auth.signOut().then(() => {
+        // Sign-out successful.
+        console.log('User signed out');
+        // Reload the page
+        window.location.reload();
+      }).catch((error) => {
+        // An error happened.
+        console.error('Sign out error:', error);
+      });
+    });
+    
+    // loginpage.href = 'new-url.html'; //redirecting the changed login button to logout and new url
+
+  }
+
   if (document.getElementById('onregisterclick')) {
     // console.log("check")
     const registerelement = document.getElementById('onregisterclick');
@@ -392,7 +403,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     registerelement.addEventListener('click', register);  // Pass the function itself
   } else {
-    console.log("register element not found on this page.");
+    // console.log("register element not found on this page.");
   }
 
   if (document.getElementById('onloginclick')) {
@@ -400,8 +411,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const loginelement = document.getElementById('onloginclick');
     loginelement.addEventListener('click', login);
 
+    
+
   } else {
-    console.log("login element not found on this page.");
+    // console.log("login element not found on this page.");
   }
   
 
