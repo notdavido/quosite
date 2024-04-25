@@ -10,7 +10,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
-import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+import { getDatabase, ref, set, update, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 
@@ -223,7 +223,7 @@ export function submittingform(event) {
   var user = auth.currentUser
   console.log(user)
   // Use set function to write data to the database
-  set(ref(db, 'users/' + user.uid + '/activeprojects/' + '/dataset1/' + '/quotes/' + quote), data)
+  set(ref(db, 'users/' + user.uid + '/activeprojects/' + '/1/' + '/quotes/' + quote), data)
   
       .then(() => {
           console.log("Data successfully written to the database");
@@ -373,6 +373,40 @@ document.addEventListener("DOMContentLoaded", function() {
         // If the current page is either 'login.html' or 'signup.html', reload the page
         window.location.href = 'index.html';
       }
+      if (window.location.href.includes('landingpage.html')) {
+
+        // Retrieve the data once
+
+        const dataRef = ref(db, 'users/' + user.uid + '/activeprojects');
+
+        get(dataRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            // Data exists at the specified location
+            const data = snapshot.val();
+            console.log("Data exists:", data);
+
+            let numChildren = 0;
+            snapshot.forEach(childSnapshot => {
+              numChildren++;
+            });
+            console.log(numChildren)
+          } else {
+            // Data doesn't exist at the specified location
+            alert("create a dataset with the button below");
+          }
+        }).catch((error) => {
+          console.error("Error getting data:", error);
+        });
+
+
+
+
+
+
+
+
+
+      }
     if (signinpage) {
       signinpage.remove();
     }
@@ -393,6 +427,9 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
       // User is signed out.
       console.log("User is signed out");
+      if (window.location.href.includes('landingpage.html')) {
+        alert('you must sign in to use this feature');
+      }
       // Your code for signed out user here
     }
   });
