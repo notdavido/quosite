@@ -480,6 +480,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(macookie);
 
         const dataRef = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes');
+        const forname = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/name');
 
         get(dataRef).then((snapshot) => {
           if (snapshot.exists()) {
@@ -494,7 +495,23 @@ document.addEventListener("DOMContentLoaded", function() {
           }
         });
 
+        get(forname)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            // Node exists in the database
+            const nameValue = snapshot.val();
+            console.log("Name:", nameValue);
 
+            let projitem = document.getElementById("myButton");
+            projitem.textContent = nameValue;
+          } else {
+            // Node doesn't exist in the database
+            console.log("Name node does not exist in the database.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error getting name from the database:", error);
+        });
 
         
         // console.log(dataRef)
