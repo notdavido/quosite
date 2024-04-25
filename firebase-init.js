@@ -223,7 +223,8 @@ export function submittingform(event) {
   var user = auth.currentUser
   console.log(user)
   // Use set function to write data to the database
-  set(ref(db, 'users/' + user.uid + '/activeprojects/' + '/1/' + '/quotes/' + quote), data)
+  let macookie = getCookie("Project Set");
+  set(ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes/' + quote), data)
   
       .then(() => {
           console.log("Data successfully written to the database");
@@ -471,14 +472,32 @@ document.addEventListener("DOMContentLoaded", function() {
       if (window.location.href.includes('index.html')) {
         console.log('make sure you add the function that actually displays the quotes you idiot')
 
-        let macookie = getCookie("Project Set");
+        let macookie = getCookie("Project Set"); //cookie for which project
         if (!macookie) {
           alert("Select set to work on");
           window.location.href = "landingpage.html";
         }
         console.log(macookie);
+
+        const dataRef = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes');
+
+        get(dataRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            let numChildren = 0;
+            snapshot.forEach(childSnapshot => {
+              numChildren++;
+              let iteration = numChildren;
+
+
+              console.log("item: " + iteration)
+            });
+          }
+        });
+
+
+
         
-        // const dataRef = ref(db, 'users/' + user.uid + '/activeprojects');
+        // console.log(dataRef)
       }
     if (signinpage) {
       signinpage.remove();
