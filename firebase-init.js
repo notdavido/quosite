@@ -358,6 +358,7 @@ function setCookie(cookieName, cookieValue) {
   document.cookie = cookieName + "=" + cookieValue + ";path=/";
 }
 
+//use Project Set for getting val
 function getCookie(cookieName) { ////might need to reorder depending on what might happen
   const name = cookieName + "=";
   const decodedCookie = decodeURIComponent(document.cookie);
@@ -466,6 +467,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+      }
+      if (window.location.href.includes('index.html')) {
+        console.log('make sure you add the function that actually displays the quotes you idiot')
+
+        let macookie = getCookie("Project Set");
+        if (!macookie) {
+          alert("Select set to work on");
+          window.location.href = "landingpage.html";
+        }
+        console.log(macookie);
+        
+        // const dataRef = ref(db, 'users/' + user.uid + '/activeprojects');
       }
     if (signinpage) {
       signinpage.remove();
