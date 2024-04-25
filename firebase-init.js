@@ -353,6 +353,28 @@ function validateemail(email) {
   }
 }
 
+
+function setCookie(cookieName, cookieValue) {
+  document.cookie = cookieName + "=" + cookieValue + ";path=/";
+}
+
+function getCookie(cookieName) { ////might need to reorder depending on what might happen
+  const name = cookieName + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookieArray = decodedCookie.split(';');
+  for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) === ' ') {
+          cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(name) === 0) {
+          return cookie.substring(name.length, cookie.length);
+      }
+  }
+  return "";
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
   // This code will execute after all HTML elements have been loaded
   // Put the relevant parts of your JavaScript code here
@@ -378,24 +400,60 @@ document.addEventListener("DOMContentLoaded", function() {
         // Retrieve the data once
 
         const dataRef = ref(db, 'users/' + user.uid + '/activeprojects');
+        const topictemplate = document.getElementById('tobedetermined');
+        const topicscontainer = document.getElementById("topics-container");
+
+        // function changetopcinformation(instance, iteration) {
+
+        // }
 
         get(dataRef).then((snapshot) => {
           if (snapshot.exists()) {
+
             // Data exists at the specified location
             const data = snapshot.val();
             console.log("Data exists:", data);
 
             let numChildren = 0;
             snapshot.forEach(childSnapshot => {
+              
               numChildren++;
+              let iteration = numChildren;
+              
+              // if (numChildren == 1) {
+
+
+              //   return;
+              // }
+              console.log("if we want to make real names for the things we would have to check here");
+
+              const clone = topictemplate.cloneNode(true);  
+              clone.id = ("topic"+iteration);
+              topicscontainer.appendChild(clone); // Append the clone to the topicscontainer
+
+              
+              const cloneH3 = clone.querySelector('h3');
+              cloneH3.textContent = ('Selection ' + iteration);
+
+              clone.addEventListener("click", function() {
+                console.log('click: ' + iteration)
+                setCookie('Project Set', iteration); 
+                let newcookie = getCookie('Project Set')
+                console.log(newcookie)
+              });
             });
-            console.log(numChildren)
+            document.getElementById('tobedetermined').remove(); //redefined instead of variable for consistency
+            console.log('delete')
+
+
+
+            // object.addEventListener("click", myScript);
           } else {
             // Data doesn't exist at the specified location
             alert("create a dataset with the button below");
           }
         }).catch((error) => {
-          console.error("Error getting data:", error);
+          console.log("Error getting data:", error);
         });
 
 
