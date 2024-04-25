@@ -438,8 +438,10 @@ document.addEventListener("DOMContentLoaded", function() {
               clone.addEventListener("click", function() {
                 console.log('click: ' + iteration)
                 setCookie('Project Set', iteration); 
-                let newcookie = getCookie('Project Set')
-                console.log(newcookie)
+                // let newcookie = getCookie('Project Set')
+                // console.log(newcookie) //works
+
+                window.location.href = "index.html";
               });
             });
             document.getElementById('tobedetermined').remove(); //redefined instead of variable for consistency
