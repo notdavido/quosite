@@ -6,9 +6,23 @@ body, html {
 
   padding: 0;
   height: 100%;
-    min-height: 100vh;
+/*    min-height: 100vh;*/
+    width: auto;
     display: flex;
     flex-direction: column;
+}
+
+.body {
+    padding-left: 29%;
+}
+
+.topic {
+  width: 22%; /* Adjust the width as needed */
+  margin: 10px;
+ /*  padding: 20px; */
+  background: #fff; /* Example background color for each topic */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Example shadow for styling */
+    border-radius: 15px; /* This will give you rounded corners with a 15px radius */
 }
 
 .topframe {
@@ -86,15 +100,7 @@ body, html {
 }
 
 
-.topic {
-  width: 100%; /* Adjust the width as needed */
-  min-height: 100%;
-  padding-left: 8px;
-  padding-right: 8px;
-  background: #d7d6d6; /* Example background color for each topic */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Example shadow for styling */
-    border-radius: 15px; /* This will give you rounded corners with a 15px radius */
-}
+
 @media (max-width: 768px) {
   .topic {
     width: 99%; /* Full width on smaller screens */
@@ -218,4 +224,8 @@ body, html {
   margin: 2px;
   border: 1px solid #ccc;
   border-radius: 3px;
+}
+
+.fullsizeimage {
+  width: 100%;
 }
