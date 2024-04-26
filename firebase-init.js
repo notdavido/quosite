@@ -214,6 +214,7 @@ export function submittingform(event) {
       tags: tags,
       lines: lines,
       page: page,
+      quote: quote
       // quote: quote
   };
   
@@ -480,10 +481,10 @@ document.addEventListener("DOMContentLoaded", function() {
           window.location.href = "landingpage.html";
         }
         console.log(macookie);
-
-        const dataRef = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes');
         const forname = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/name');
 
+
+        const dataRef = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes');
 
         get(dataRef).then((snapshot) => {
           console.log(dataRef);
@@ -509,6 +510,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
               indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
             });
+            document.getElementById("quotetobedetermined").remove();
             console.log(indexedQuotes); // This will log the indexed quotes object
           }
         });
