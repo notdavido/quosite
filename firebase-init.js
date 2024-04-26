@@ -12,6 +12,7 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
 import { getDatabase, ref, set, update, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+// import { doc } from 'firebase/firestore';
 
 
 
@@ -213,7 +214,7 @@ export function submittingform(event) {
       tags: tags,
       lines: lines,
       page: page,
-      quote: quote
+      // quote: quote
   };
   
   if (!auth.currentUser) {
@@ -483,19 +484,30 @@ document.addEventListener("DOMContentLoaded", function() {
         const dataRef = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes');
         const forname = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/name');
 
+
         get(dataRef).then((snapshot) => {
           console.log(dataRef);
           if (snapshot.exists()) {
             let indexedQuotes = {};            
             let numChildren = 0;
+            const quoteshowform = document.getElementById("quotetobedetermined");
+            const parent = document.getElementById("quotecontainer");
 
-            snapshot.forEach(childSnapshot => {
+            snapshot.forEach(childSnapshot => { //iteration for each item in project thing
               numChildren++;
               let iteration = numChildren;
-              
+              console.log("item: " + iteration + ": " + childSnapshot.key);
 
-              console.log("item: " + iteration + ": " + childSnapshot.val())
-              indexedQuotes[iteration] = childSnapshot.val();
+              const clone = quoteshowform.cloneNode(true);  
+              clone.id = ("quote"+iteration);
+              parent.appendChild(clone); // Append the clone to the topicscontainer
+
+              
+              const cloneH2 = clone.querySelector('h2');
+              cloneH2.textContent = (childSnapshot.key);
+
+
+              indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
             });
             console.log(indexedQuotes); // This will log the indexed quotes object
           }

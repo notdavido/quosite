@@ -177,6 +177,15 @@ body, html {
   background: #f5f5f5;
 }
 
+.quote-place {
+  display: flex;
+  text-align: center;
+  padding: 10px 20px;
+
+  height: auto ;
+  background: #f5f5f5;
+}
+
 .footer p {
   color: white;
   text-align: center;
