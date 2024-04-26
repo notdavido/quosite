@@ -395,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (user) {
       if (window.location.href.includes('login.html') || window.location.href.includes('signup.html')) {
         // If the current page is either 'login.html' or 'signup.html', reload the page
-        window.location.href = 'index.html';
+        window.location.href = 'landingpage.html';
       }
       if (window.location.href.includes('landingpage.html')) {
 
