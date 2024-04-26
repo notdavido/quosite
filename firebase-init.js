@@ -10,7 +10,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
-import { getDatabase, ref, set, update, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+import { getDatabase, ref, set, push, update, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 // import { doc } from 'firebase/firestore';
 
@@ -227,7 +227,8 @@ export function submittingform(event) {
   console.log(user)
   // Use set function to write data to the database
   let macookie = getCookie("Project Set");
-  set(ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes/' + quote), data)
+  const newQuoteRef = (ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes'));
+  push(newQuoteRef, data)
   
       .then(() => {
           console.log("Data successfully written to the database");
@@ -497,7 +498,12 @@ document.addEventListener("DOMContentLoaded", function() {
             snapshot.forEach(childSnapshot => { //iteration for each item in project thing
               numChildren++;
               let iteration = numChildren;
-              console.log("item: " + iteration + ": " + childSnapshot.key);
+              let identifier = childSnapshot.key; //mopre than just an identifier but also instance
+              let thequote = childSnapshot.child('quote').val();
+              // console.log(thequote)
+
+              console.log("item: " + iteration + ": " + thequote);
+              
 
               const clone = quoteshowform.cloneNode(true);  
               clone.id = ("quote"+iteration);
@@ -505,7 +511,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
               
               const cloneH2 = clone.querySelector('h2');
-              cloneH2.textContent = (childSnapshot.key);
+              cloneH2.textContent = (thequote);
 
 
               indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
@@ -515,11 +521,11 @@ document.addEventListener("DOMContentLoaded", function() {
           }
         });
 
-        get(forname)
+        get(forname) //idk that this does anything rn??
         .then((snapshot) => {
           if (snapshot.exists()) {
             // Node exists in the database
-            const nameValue = snapshot.val();
+            const nameValue = snapshot.val(); //gives the crzy identifier
             console.log("Name:", nameValue);
 
             let projitem = document.getElementById("myButton");
