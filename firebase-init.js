@@ -212,7 +212,8 @@ export function submittingform(event) {
   const data = {
       tags: tags,
       lines: lines,
-      page: page
+      page: page,
+      quote: quote
   };
   
   if (!auth.currentUser) {
@@ -483,15 +484,20 @@ document.addEventListener("DOMContentLoaded", function() {
         const forname = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/name');
 
         get(dataRef).then((snapshot) => {
+          console.log(dataRef);
           if (snapshot.exists()) {
+            let indexedQuotes = {};            
             let numChildren = 0;
+
             snapshot.forEach(childSnapshot => {
               numChildren++;
               let iteration = numChildren;
+              
 
-
-              console.log("item: " + iteration)
+              console.log("item: " + iteration + ": " + childSnapshot.val())
+              indexedQuotes[iteration] = childSnapshot.val();
             });
+            console.log(indexedQuotes); // This will log the indexed quotes object
           }
         });
 

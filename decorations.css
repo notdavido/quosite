@@ -25,6 +25,15 @@ body, html {
     border-radius: 15px; /* This will give you rounded corners with a 15px radius */
 }
 
+.quote-topic {
+  width: 80%; /* Adjust the width as needed */
+  margin: 10px;
+ /*  padding: 20px; */
+  background: #fff; /* Example background color for each topic */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Example shadow for styling */
+    border-radius: 15px; /* This will give you rounded corners with a 15px radius */
+}
+
 .topframe {
   display: flex;
   align-items: center;
