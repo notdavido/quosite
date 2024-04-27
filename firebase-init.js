@@ -282,7 +282,7 @@ function register(event){
       email : email,
       last_login : Date.now()
     }
-    console.log('wtf1111111111111111111111');
+
     set(ref(db, 'users/' + user.uid), user_data)
       .then(() => {
           console.log("User added to database");
@@ -474,10 +474,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const topictemplate = document.getElementById('tobedetermined');
         const topicscontainer = document.getElementById("topics-container");
 
-        // const button = document.getElementById("simplesetcreate"); //this is a temporary solution
-        // button.addEventListener("click", function() {
-          
-        // });
+        const button22 = document.getElementById("simplesetcreate"); //this is a temporary solution
+        button22.addEventListener("click", function() {
+          console.log('3ffsf')
+          set(ref(db, 'users/' + user.uid + '/activeprojects/' + 1 + '/quotes'));
+        });
         // function changetopcinformation(instance, iteration) {
 
         // }
@@ -529,7 +530,7 @@ document.addEventListener("DOMContentLoaded", function() {
           } else {
             // Data doesn't exist at the specified location
             alert("create a dataset with the button below");
-            // set(ref(db, 'users/' + user.uid + '/activeprojects' + "1"));
+            // set(ref(db, 'users/' + user.uid + '/activeprojects/' + 1 + '/quotes'));
           }
         }).catch((error) => {
           console.log("Error getting data:", error);
