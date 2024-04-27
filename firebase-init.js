@@ -233,6 +233,21 @@ export function submittingform(event) {
       .then(() => {
           console.log("Data successfully written to the database");
           // Optionally reset the form here
+          const dataRef = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes');
+
+        get(dataRef).then((snapshot) => {
+          console.log(dataRef);
+          if (snapshot.exists()) {
+                      
+            
+            
+
+            let indexedQuotes = createquoteboxes(snapshot);
+            
+            document.getElementById("quotetobedetermined").remove();
+            console.log(indexedQuotes); // This will log the indexed quotes object
+          }
+        });
       })
       .catch((error) => {
           console.error("Error writing data to the database: ", error);
@@ -391,6 +406,7 @@ function createquoteboxes(snapshot) {
     counterelement += 1
     console.log(counterelement);
     if  (counterelement == 1) {
+      element.id = 'quotetobedetermined';
       return
     }
     element.remove()
