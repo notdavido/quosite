@@ -381,6 +381,38 @@ function getCookie(cookieName) { ////might need to reorder depending on what mig
 }
 
 
+function createquoteboxes(snapshot) {
+  let numChildren = 0;
+  let indexedQuotes = {};  
+  snapshot.forEach(childSnapshot => { //iteration for each item in project thing
+    numChildren++;
+    let iteration = numChildren;
+    let identifier = childSnapshot.key; //mopre than just an identifier but also instance
+    let thequote = childSnapshot.child('quote').val();
+    const quoteshowform = document.getElementById("quotetobedetermined");
+    const parent = document.getElementById("quotecontainer");
+    
+    // console.log(thequote)
+
+    console.log("item: " + iteration + ": " + thequote);
+    
+
+    const clone = quoteshowform.cloneNode(true);  
+    clone.id = ("quote"+iteration);
+    parent.appendChild(clone); // Append the clone to the topicscontainer
+
+    
+    const cloneH2 = clone.querySelector('h2');
+    cloneH2.textContent = (thequote);
+
+
+    indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
+         
+  });
+  return indexedQuotes
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
   // This code will execute after all HTML elements have been loaded
   // Put the relevant parts of your JavaScript code here
@@ -490,32 +522,12 @@ document.addEventListener("DOMContentLoaded", function() {
         get(dataRef).then((snapshot) => {
           console.log(dataRef);
           if (snapshot.exists()) {
-            let indexedQuotes = {};            
-            let numChildren = 0;
-            const quoteshowform = document.getElementById("quotetobedetermined");
-            const parent = document.getElementById("quotecontainer");
+                      
+            
+            
 
-            snapshot.forEach(childSnapshot => { //iteration for each item in project thing
-              numChildren++;
-              let iteration = numChildren;
-              let identifier = childSnapshot.key; //mopre than just an identifier but also instance
-              let thequote = childSnapshot.child('quote').val();
-              // console.log(thequote)
-
-              console.log("item: " + iteration + ": " + thequote);
-              
-
-              const clone = quoteshowform.cloneNode(true);  
-              clone.id = ("quote"+iteration);
-              parent.appendChild(clone); // Append the clone to the topicscontainer
-
-              
-              const cloneH2 = clone.querySelector('h2');
-              cloneH2.textContent = (thequote);
-
-
-              indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
-            });
+            let indexedQuotes = createquoteboxes(snapshot);
+            
             document.getElementById("quotetobedetermined").remove();
             console.log(indexedQuotes); // This will log the indexed quotes object
           }
