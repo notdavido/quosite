@@ -384,6 +384,18 @@ function getCookie(cookieName) { ////might need to reorder depending on what mig
 function createquoteboxes(snapshot) {
   let numChildren = 0;
   let indexedQuotes = {};  
+
+  var oldelements = document.querySelectorAll('.topic'); //finding old elements to allow deleting
+  let counterelement = 0;
+  oldelements.forEach(function(element) {
+    counterelement += 1
+    console.log(counterelement);
+    if  (counterelement == 1) {
+      return
+    }
+    element.remove()
+  });
+
   snapshot.forEach(childSnapshot => { //iteration for each item in project thing
     numChildren++;
     let iteration = numChildren;
