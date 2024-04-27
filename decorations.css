@@ -5,7 +5,7 @@ body, html {
   margin: 0;
 
   padding: 0;
-  height: 100%;
+  height: auto;
 /*    min-height: 100vh;*/
     width: auto;
     display: flex;

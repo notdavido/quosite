@@ -282,9 +282,11 @@ function register(event){
       email : email,
       last_login : Date.now()
     }
+    console.log('wtf1111111111111111111111');
     set(ref(db, 'users/' + user.uid), user_data)
       .then(() => {
           console.log("User added to database");
+          window.location.href = 'landingpage.html';
           // Optionally reset the form here
       })
       .catch((error) => {
@@ -296,7 +298,6 @@ function register(event){
       });
     // database_ref.child('users/' + user.uid).set()
 
-    alert('user created')
   })
   .catch((error) => {
     var error_code = error.code
@@ -331,7 +332,7 @@ function login() {
   .then((userCredential) => {
     const user = userCredential.user;
     console.log("User logged in:", user);
-    alert('Logged in')
+    window.location.href = 'landingpage.html';
     // Update user data
     update(ref(db, 'users/' + user.uid), user_data)
       .then(() => {
@@ -459,7 +460,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if (user) {
       if (window.location.href.includes('login.html') || window.location.href.includes('signup.html')) {
         // If the current page is either 'login.html' or 'signup.html', reload the page
-        window.location.href = 'landingpage.html';
+        setTimeout(function() {
+          // Actions to perform after waiting
+          console.log("Actions after waiting");
+      }, 2000);
+        // window.location.href = 'landingpage.html';
       }
       if (window.location.href.includes('landingpage.html')) {
 
@@ -469,6 +474,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const topictemplate = document.getElementById('tobedetermined');
         const topicscontainer = document.getElementById("topics-container");
 
+        // const button = document.getElementById("simplesetcreate"); //this is a temporary solution
+        // button.addEventListener("click", function() {
+          
+        // });
         // function changetopcinformation(instance, iteration) {
 
         // }
@@ -510,6 +519,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 window.location.href = "index.html";
               });
             });
+            
             document.getElementById('tobedetermined').remove(); //redefined instead of variable for consistency
             console.log('delete')
 
@@ -519,6 +529,7 @@ document.addEventListener("DOMContentLoaded", function() {
           } else {
             // Data doesn't exist at the specified location
             alert("create a dataset with the button below");
+            // set(ref(db, 'users/' + user.uid + '/activeprojects' + "1"));
           }
         }).catch((error) => {
           console.log("Error getting data:", error);
