@@ -474,10 +474,24 @@ document.addEventListener("DOMContentLoaded", function() {
         const topictemplate = document.getElementById('tobedetermined');
         const topicscontainer = document.getElementById("topics-container");
 
+        const activeProjectsRef = ref(db, 'users/' + user.uid + '/activeprojects');
+
+        let numChildren = 1;
+        get(activeProjectsRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    numChildren++;
+                });
+                console.log("Number of children under activeprojects:", numChildren);
+            } else {
+                console.log("No activeprojects found for the user.");
+            }
+        });
         const button22 = document.getElementById("simplesetcreate"); //this is a temporary solution
         button22.addEventListener("click", function() {
           console.log('3ffsf')
-          set(ref(db, 'users/' + user.uid + '/activeprojects/' + 1 + '/quotes'));
+          set(ref(db, 'users/' + user.uid + '/activeprojects/' + numChildren ),numChildren);
+          location.reload();
         });
         // function changetopcinformation(instance, iteration) {
 
