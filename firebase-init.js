@@ -204,11 +204,36 @@ function googleProviderCredential(idToken) {
 // Define the submittingform function
 export function submittingform(event) {
   event.preventDefault(); // Prevent the default form submission
-  console.log("Form submitted!");
+  // console.log("Form submitted!");
+
+  var form = document.querySelector('.quotegatherform');
   const quote = document.getElementById("quote").value;
   const tags = document.getElementById("tag-input").value.split(',');
   const lines = document.getElementById("lines").value;
   const page = document.getElementById("page").value;
+
+  var requiredFields = form.querySelectorAll('[required]');
+  var allFieldsFilled = true;
+  requiredFields.forEach(function(field) {
+    if (!field.value.trim()) { // Check if field value is empty
+        allFieldsFilled = false;
+        // Optionally, you can add visual feedback to the user to indicate the missing required fields
+        field.classList.add('missing');
+    } else {
+  
+        // field.classList.remove('missing');
+    }
+    if (allFieldsFilled) {
+      //logic drawn out later
+      console.log('All required fields are filled out. Proceeding with form submission.');
+  } else {
+      alert('make sure to fill both the quote and at least one tag');
+      console.log('Not all fields written.'); //maybe add some sort of alert for which boxes in the future
+  }})
+
+  if (allFieldsFilled == false) {
+    return;
+  }
 
   const data = {
       tags: tags,
@@ -405,7 +430,7 @@ function createquoteboxes(snapshot) {
   let counterelement = 0;
   oldelements.forEach(function(element) {
     counterelement += 1
-    console.log(counterelement);
+    // console.log(counterelement);
     if  (counterelement == 1) {
       element.id = 'quotetobedetermined';
       return
