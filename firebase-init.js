@@ -629,7 +629,48 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch((error) => {
           console.error("Error getting name from the database:", error);
         });
+        
+        //quote organizer for bottom filter
+        const tagInputNav = document.getElementById('tag-input-navigate');
+        const tagListNav = document.getElementById('tag-list-navigate');
+        // const tags = document.getElementById("tag-input").value.split(',');
+        tagInputNav.addEventListener('keyup', (event) => {
+          const inputValue = event.target.value;
+          const tags = inputValue.split(',');
+        
+          tagListNav.innerHTML = ''; // Clear the tag list before adding new tags
+        
+          tags.forEach(tag => {
+            const trimmedTag = tag.trim(); // Remove leading/trailing spaces
+            if (trimmedTag) {
+              const tagElement = document.createElement('span');
+              tagElement.classList.add('tag');
+              tagElement.textContent = trimmedTag;
+              tagListNav.appendChild(tagElement);
+            }
+          });
+        });
 
+
+        //the following is for the top tag creator
+        const tagInput = document.getElementById('tag-input');
+        const tagList = document.getElementById('tag-list');
+        tagInput.addEventListener('keyup', (event) => {
+          const inputValue = event.target.value;
+          const tags = inputValue.split(',');
+        
+          tagList.innerHTML = ''; // Clear the tag list before adding new tags
+        
+          tags.forEach(tag => {
+            const trimmedTag = tag.trim(); // Remove leading/trailing spaces
+            if (trimmedTag) {
+              const tagElement = document.createElement('span');
+              tagElement.classList.add('tag');
+              tagElement.textContent = trimmedTag;
+              tagList.appendChild(tagElement);
+            }
+          });
+        });
         
         // console.log(dataRef)
       }
