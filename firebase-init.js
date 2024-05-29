@@ -12,6 +12,7 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.11.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
 import { getDatabase, ref, set, push, update, get } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
 // import { doc } from 'firebase/firestore';
 
 
@@ -585,6 +586,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       }
       if (window.location.href.includes('index.html')) {
+        let indexingtags;
         console.log('make sure you add the function that actually displays the quotes you idiot')
 
         let macookie = getCookie("Project Set"); //cookie for which project
@@ -637,7 +639,8 @@ document.addEventListener("DOMContentLoaded", function() {
         tagInputNav.addEventListener('keyup', (event) => {
           const inputValue = event.target.value;
           const tags = inputValue.split(',');
-        
+          indexingtags = tags;
+          console.log(indexingtags);
           tagListNav.innerHTML = ''; // Clear the tag list before adding new tags
         
           tags.forEach(tag => {
