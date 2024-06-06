@@ -462,7 +462,7 @@ function createquoteboxes(snapshot, tagstofilter) {
             // const theH2 = quoteshowform.querySelector('h2');
             // theH2.textContent = ('placeholder');
             // parent.appendChild(quoteshowform); // Append the clone to the topicscontainer
-            return
+            
           }
           else {
             quoteshowform.id = ("quotetobedetermined");
@@ -471,7 +471,7 @@ function createquoteboxes(snapshot, tagstofilter) {
             // const clone = quoteshowform.cloneNode(true);  
             // clone.id = ("quotetobedetermined");
             // parent.appendChild(clone); // Append the clone to the topicscontainer
-            return
+            
           }
           
     
