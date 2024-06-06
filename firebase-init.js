@@ -478,8 +478,7 @@ function createquoteboxes(snapshot, tagstofilter) {
         }
         else{
           console.log("Clear")
-        }
-      numChildren++;
+          numChildren++;
       let iteration = numChildren;
       let identifier = childSnapshot.key; //mopre than just an identifier but also instance
       
@@ -515,6 +514,8 @@ function createquoteboxes(snapshot, tagstofilter) {
   
       indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
                  
+        }
+      
     }
     else{
       // console.log('hopefully you want this firing')
