@@ -456,8 +456,9 @@ function createquoteboxes(snapshot, tagstofilter) {
         quotetaglist.push(tag); // Adding the tag to the quotetaglist
       });
 
-      if (true != tagstofilter.every(tag => quotetaglist.includes(tag)))
+      if (tagstofilter.every(tag => quotetaglist.includes(tag)))
         {
+
           if (quoteshowform.id == ("quotetobedetermined")){
             // const theH2 = quoteshowform.querySelector('h2');
             // theH2.textContent = ('placeholder');
@@ -471,7 +472,6 @@ function createquoteboxes(snapshot, tagstofilter) {
             // const clone = quoteshowform.cloneNode(true);  
             // clone.id = ("quotetobedetermined");
             // parent.appendChild(clone); // Append the clone to the topicscontainer
-            
           }
           
     
