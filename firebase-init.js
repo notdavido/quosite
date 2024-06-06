@@ -456,7 +456,7 @@ function createquoteboxes(snapshot, tagstofilter) {
         quotetaglist.push(tag); // Adding the tag to the quotetaglist
       });
 
-      if (tagstofilter.every(tag => quotetaglist.includes(tag)))
+      if (! (tagstofilter.every(tag => quotetaglist.includes(tag))))
         {
 
           if (quoteshowform.id == ("quotetobedetermined")){
