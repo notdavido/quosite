@@ -423,46 +423,127 @@ function getCookie(cookieName) { ////might need to reorder depending on what mig
 }
 
 
-function createquoteboxes(snapshot) {
+function createquoteboxes(snapshot, tagstofilter) {
   let numChildren = 0;
   let indexedQuotes = {};  
 
   var oldelements = document.querySelectorAll('.topic'); //finding old elements to allow deleting
   let counterelement = 0;
+  let placeholder 
   oldelements.forEach(function(element) {
     counterelement += 1
     // console.log(counterelement);
-    if  (counterelement == 1) {
+    if  (counterelement === 1) {
       element.id = 'quotetobedetermined';
+      // placeholder = element.idc
+      console.log("SAVED ONE")
       return
     }
     element.remove()
+    console.log("deleted: ",counterelement)
   });
 
   snapshot.forEach(childSnapshot => { //iteration for each item in project thing
-    numChildren++;
-    let iteration = numChildren;
-    let identifier = childSnapshot.key; //mopre than just an identifier but also instance
-    let thequote = childSnapshot.child('quote').val();
-    const quoteshowform = document.getElementById("quotetobedetermined");
-    const parent = document.getElementById("quotecontainer");
+    if (tagstofilter) {
+
+      let thequote = childSnapshot.child('quote').val();
+      let itstagsscope = childSnapshot.child('tags');
+      let quotetaglist = [];
+      const quoteshowform = document.getElementById("quotetobedetermined");
+      itstagsscope.forEach((tagSnapshot) => {
+        let tag = tagSnapshot.val();
+        console.log("quote:", thequote, ":", tag); // This will log each tag
+        quotetaglist.push(tag); // Adding the tag to the quotetaglist
+      });
+
+      if (true != tagstofilter.every(tag => quotetaglist.includes(tag)))
+        {
+          if (quoteshowform.id == ("quotetobedetermined")){
+            // const theH2 = quoteshowform.querySelector('h2');
+            // theH2.textContent = ('placeholder');
+            // parent.appendChild(quoteshowform); // Append the clone to the topicscontainer
+            return
+          }
+          else {
+            quoteshowform.id = ("quotetobedetermined");
+            console.log("flagged")
+            // parent.appendChild(quoteshowform); // Append the clone to the topicscontainer
+            // const clone = quoteshowform.cloneNode(true);  
+            // clone.id = ("quotetobedetermined");
+            // parent.appendChild(clone); // Append the clone to the topicscontainer
+            return
+          }
+          
     
-    // console.log(thequote)
+          return
+        }
+        else{
+          console.log("Clear")
+        }
+      numChildren++;
+      let iteration = numChildren;
+      let identifier = childSnapshot.key; //mopre than just an identifier but also instance
+      
+      
 
-    console.log("item: " + iteration + ": " + thequote);
-    
+      
 
-    const clone = quoteshowform.cloneNode(true);  
-    clone.id = ("quote"+iteration);
-    parent.appendChild(clone); // Append the clone to the topicscontainer
+      const parent = document.getElementById("quotecontainer");
+      
 
-    
-    const cloneH2 = clone.querySelector('h2');
-    cloneH2.textContent = (thequote);
+      const clone = quoteshowform.cloneNode(true);   //IM IN A RSH BUT CLEARLY THERES A DATA LEAK HERE IF YOU CARE
+      
+      //console.log(itstagsscope)
+     
+      
 
 
-    indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
-         
+      
+      
+      
+      // console.log(thequote)
+      clone.id = ("quote"+iteration);
+      console.log("item: " + iteration + ": " + thequote);
+      
+  
+      
+      parent.appendChild(clone); // Append the clone to the topicscontainer
+      quoteshowform.remove()
+      
+      const cloneH2 = clone.querySelector('h2');
+      cloneH2.textContent = (thequote);
+  
+  
+      indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
+                 
+    }
+    else{
+      // console.log('hopefully you want this firing')
+      numChildren++;
+      let iteration = numChildren;
+      let identifier = childSnapshot.key; //mopre than just an identifier but also instance
+      let thequote = childSnapshot.child('quote').val();
+      const quoteshowform = document.getElementById("quotetobedetermined");
+      const parent = document.getElementById("quotecontainer");
+      
+      // console.log(thequote)
+  
+      console.log("item: " + iteration + ": " + thequote);
+      
+  
+      const clone = quoteshowform.cloneNode(true);  
+      clone.id = ("quote"+iteration);
+      parent.appendChild(clone); // Append the clone to the topicscontainer
+  
+      
+      const cloneH2 = clone.querySelector('h2');
+      cloneH2.textContent = (thequote);
+  
+  
+      indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
+                 
+    }
+
   });
   return indexedQuotes
 }
@@ -631,6 +712,25 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch((error) => {
           console.error("Error getting name from the database:", error);
         });
+
+        //redraw quotes
+        function redraw()
+          {
+            get(dataRef).then((snapshot) => {
+              console.log(dataRef);
+              if (snapshot.exists()) {
+                          
+                
+                
+    
+                let indexedQuotes = createquoteboxes(snapshot, indexingtags);
+                
+                // document.getElementById("quotetobedetermined").remove();
+                console.log(indexedQuotes); // This will log the indexed quotes object
+              }
+            });
+          }
+        
         
         //quote organizer for bottom filter
         const tagInputNav = document.getElementById('tag-input-navigate');
@@ -639,7 +739,7 @@ document.addEventListener("DOMContentLoaded", function() {
         tagInputNav.addEventListener('keyup', (event) => {
           const inputValue = event.target.value;
           const tags = inputValue.split(',');
-          indexingtags = tags;
+          
           console.log(indexingtags);
           tagListNav.innerHTML = ''; // Clear the tag list before adding new tags
         
@@ -652,6 +752,8 @@ document.addEventListener("DOMContentLoaded", function() {
               tagListNav.appendChild(tagElement);
             }
           });
+          indexingtags = tags;
+          redraw()
         });
 
 
