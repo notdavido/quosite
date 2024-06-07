@@ -424,32 +424,43 @@ function getCookie(cookieName) { ////might need to reorder depending on what mig
 
 
 function createquoteboxes(snapshot, tagstofilter) {
+  let instanceexist = false;
+
   let numChildren = 0;
   let indexedQuotes = {};  
-
+  // console.log('IOJDFOAISJDFOIASJDFOAISDJFAOSIDFJSOIFJD')
   var oldelements = document.querySelectorAll('.topic'); //finding old elements to allow deleting
   let counterelement = 0;
   let placeholder 
+  let originalelement
   oldelements.forEach(function(element) {
     counterelement += 1
     // console.log(counterelement);
     if  (counterelement === 1) {
       element.id = 'quotetobedetermined';
-      // placeholder = element.idc
-      console.log("SAVED ONE")
+      placeholder = element.cloneNode(true);
+      originalelement = element;
+      // console.log("SAVED ONE")
+      if (tagstofilter) {
+        originalelement.remove();
+      }
       return
     }
     element.remove()
     console.log("deleted: ",counterelement)
   });
-
+  
   snapshot.forEach(childSnapshot => { //iteration for each item in project thing
     if (tagstofilter) {
-
+      // if (!tagstofilter[0]){
+      //   createquoteboxes(snapshot);
+      //   ret
+      // }
+      // element.remove();
       let thequote = childSnapshot.child('quote').val();
       let itstagsscope = childSnapshot.child('tags');
       let quotetaglist = [];
-      const quoteshowform = document.getElementById("quotetobedetermined");
+      // const quoteshowform = document.getElementById("quotetobedetermined");
       itstagsscope.forEach((tagSnapshot) => {
         let tag = tagSnapshot.val();
         console.log("quote:", thequote, ":", tag); // This will log each tag
@@ -459,62 +470,58 @@ function createquoteboxes(snapshot, tagstofilter) {
       if (! (tagstofilter.every(tag => quotetaglist.includes(tag))))
         {
 
-          if (quoteshowform.id == ("quotetobedetermined")){
-            // const theH2 = quoteshowform.querySelector('h2');
-            // theH2.textContent = ('placeholder');
-            // parent.appendChild(quoteshowform); // Append the clone to the topicscontainer
+          // if (quoteshowform.id == ("quotetobedetermined")){
+          //   console.log("flagged1")
+          //   // const theH2 = quoteshowform.querySelector('h2');
+          //   // theH2.textContent = ('placeholder');
+          //   // parent.appendChild(quoteshowform); // Append the clone to the topicscontainer
             
-          }
-          else {
-            quoteshowform.id = ("quotetobedetermined");
-            console.log("flagged")
-            // parent.appendChild(quoteshowform); // Append the clone to the topicscontainer
-            // const clone = quoteshowform.cloneNode(true);  
-            // clone.id = ("quotetobedetermined");
-            // parent.appendChild(clone); // Append the clone to the topicscontainer
-          }
+          // }
+          // else {
+          //   quoteshowform.id = ("quotetobedetermined");
+          //   console.log("flagged")
+          //   // parent.appendChild(quoteshowform); // Append the clone to the topicscontainer
+          //   // const clone = quoteshowform.cloneNode(true);  
+          //   // clone.id = ("quotetobedetermined");
+          //   // parent.appendChild(clone); // Append the clone to the topicscontainer
+          // }
           
     
         }
         else{
           console.log("Clear")
           numChildren++;
-      let iteration = numChildren;
-      let identifier = childSnapshot.key; //mopre than just an identifier but also instance
-      
-      
+          let iteration = numChildren;
+          let identifier = childSnapshot.key; //mopre than just an identifier but also instance
+          
+          
 
-      
+          
 
-      const parent = document.getElementById("quotecontainer");
-      
+          const parent = document.getElementById("quotecontainer");
+          
 
-      const clone = quoteshowform.cloneNode(true);   //IM IN A RSH BUT CLEARLY THERES A DATA LEAK HERE IF YOU CARE
+          const clone = placeholder.cloneNode(true);   //IM IN A RSH BUT CLEARLY THERES A DATA LEAK HERE IF YOU CARE
+          
+          //console.log(itstagsscope)
       
-      //console.log(itstagsscope)
-     
+          
+          // console.log(thequote)
+          clone.id = ("quote"+iteration);
+          console.log("item: " + iteration + ": " + thequote);
+          
       
-
-
+          
+          parent.appendChild(clone); // Append the clone to the topicscontainer
+          // quoteshowform.remove()
+          
+          const cloneH2 = clone.querySelector('h2');
+          cloneH2.textContent = (thequote);
       
       
-      
-      // console.log(thequote)
-      clone.id = ("quote"+iteration);
-      console.log("item: " + iteration + ": " + thequote);
-      
-  
-      
-      parent.appendChild(clone); // Append the clone to the topicscontainer
-      quoteshowform.remove()
-      
-      const cloneH2 = clone.querySelector('h2');
-      cloneH2.textContent = (thequote);
-  
-  
-      indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
-                 
-        }
+          indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
+          instanceexist = true;     
+          }
       
     }
     else{
@@ -528,7 +535,7 @@ function createquoteboxes(snapshot, tagstofilter) {
       
       // console.log(thequote)
   
-      console.log("item: " + iteration + ": " + thequote);
+      // console.log("item: " + iteration + ": " + thequote);
       
   
       const clone = quoteshowform.cloneNode(true);  
@@ -543,8 +550,34 @@ function createquoteboxes(snapshot, tagstofilter) {
       indexedQuotes[iteration] = childSnapshot.val(); //change to include key along with data, dataset inside dataset or smth
                  
     }
+    console.log("this is the.. ", indexedQuotes)
+  }
+);
+if (! instanceexist) { //if we were about to delete all- stopping to prevent having to recreate instead of clone loop
+  let instance = document.getElementById("quotecontainer").appendChild(placeholder);
+  instance.id = "quotetobedetermined";
+  // console.log("emergency clone created!!!!!!!!!!!!!!!!!!!!!!!!")
+  const cloneH2 = instance.querySelector('h2');
+  cloneH2.textContent = ('no quote found');
 
-  });
+  if (instance.querySelector('div')){
+    let tagList0 = instance.querySelector('div');
+    tagList0.remove();
+    console.log("removed tags?");
+  }
+  else{
+    console.log('no taglist')
+  }
+  let tagList = document.createElement("div");
+  instance.appendChild(tagList);
+  // const tagList = document.getElementById('tag-list0');
+  const tagElement = document.createElement('span');
+  tagElement.classList.add('tag');
+  tagElement.textContent = 'nill';
+  tagList.appendChild(tagElement);
+
+}
+
   return indexedQuotes
 }
 
@@ -682,7 +715,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const dataRef = ref(db, 'users/' + user.uid + '/activeprojects/' + macookie + '/quotes');
 
         get(dataRef).then((snapshot) => {
-          console.log(dataRef);
+          // console.log(dataRef);
           if (snapshot.exists()) {
                       
             
@@ -691,7 +724,7 @@ document.addEventListener("DOMContentLoaded", function() {
             let indexedQuotes = createquoteboxes(snapshot);
             
             document.getElementById("quotetobedetermined").remove();
-            console.log(indexedQuotes); // This will log the indexed quotes object
+            // console.log(indexedQuotes); // This will log the indexed quotes object
           }
         });
 
@@ -722,8 +755,15 @@ document.addEventListener("DOMContentLoaded", function() {
                           
                 
                 
-    
-                let indexedQuotes = createquoteboxes(snapshot, indexingtags);
+                console.log(indexingtags);
+                let indexedQuotes
+                if (!indexingtags.at(0)){
+                  indexedQuotes = createquoteboxes(snapshot);
+                }
+                else{
+                  indexedQuotes = createquoteboxes(snapshot, indexingtags);
+
+                }
                 
                 // document.getElementById("quotetobedetermined").remove();
                 console.log(indexedQuotes); // This will log the indexed quotes object
