@@ -441,9 +441,10 @@ function createquoteboxes(snapshot, tagstofilter) {
       placeholder = element.cloneNode(true);
       originalelement = element;
       // console.log("SAVED ONE")
-      if (tagstofilter) {
-        originalelement.remove();
-      }
+      // if (tagstofilter) {
+      //   originalelement.remove();
+      // }
+      originalelement.remove();
       return
     }
     element.remove()
@@ -616,7 +617,7 @@ function createquoteboxes(snapshot, tagstofilter) {
         }
         number += 1;
       });
-      quoteshowform.remove();
+      // quoteshowform.remove();
       
   
   
